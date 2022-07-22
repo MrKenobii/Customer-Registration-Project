@@ -16,8 +16,9 @@
         </div>
     </div>
     <div id="container">
-        <h3>Add Customer</h3>
+        <h3>Save Customer</h3>
         <c:form action="save-customer" modelAttribute="customer" method="POST">
+            <c:hidden path="id" />
             <table>
                 <tbody>
                 <tr>
