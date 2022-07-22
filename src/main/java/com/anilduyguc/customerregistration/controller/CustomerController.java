@@ -37,4 +37,9 @@ public class CustomerController {
         model.addAttribute("customer", customerService.getCustomer(id));
         return "customer-form";
     }
+    @GetMapping("/delete")
+    public String deleteCustomer(@RequestParam("customerId") int id){
+        customerService.deleteCustomer(id);
+        return "redirect:/customer/list";
+    }
 }
