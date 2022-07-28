@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
+import java.util.Locale;
 
 @Repository
 public class CustomerDAOImpl implements CustomerDAO{
@@ -41,5 +42,20 @@ public class CustomerDAOImpl implements CustomerDAO{
         Query query = sessionFactory.getCurrentSession().createQuery("delete from Customer where id=:customerId");
         query.setParameter("customerId", id);
         query.executeUpdate();
+    }
+
+    @Override
+    public List<Customer> searchCustomers(String searchName) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = null;
+        if(searchName != null && searchName.trim().length() > 0){
+            query = session.createQuery("from Customer where lower(firstName) like: name" +
+                    " or lower(lastName) like: name", Customer.class);
+            query.setParameter("name", "%" + searchName.toLowerCase() + "%");
+        } else {
+            query = session.createQuery("from Customer", Customer.class);
+        }
+        List<Customer> customers = query.getResultList();
+        return customers;
     }
 }
