@@ -41,4 +41,10 @@ public class CustomerServiceImpl implements CustomerService{
     public List<Customer> searchCustomers(String searchName) {
         return customerDAO.searchCustomers(searchName);
     }
+
+    @Override
+    @Transactional
+    public List<Customer> getCustomersBySort(int sortField) {
+        return customerDAO.getCustomersBySort(sortField);
+    }
 }

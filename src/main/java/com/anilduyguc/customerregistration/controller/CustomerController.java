@@ -3,6 +3,7 @@ package com.anilduyguc.customerregistration.controller;
 
 import com.anilduyguc.customerregistration.entity.Customer;
 import com.anilduyguc.customerregistration.service.CustomerService;
+import com.anilduyguc.customerregistration.utils.SortUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +18,14 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/list")
-    public String getCustomerList(Model model) {
-        List<Customer> customers = customerService.getCustomers();
+    public String listCustomers(Model model, @RequestParam(required = false) String sort){
+        List<Customer> customers = null;
+        if (sort != null) {
+            int sortField = Integer.parseInt(sort);
+            customers = customerService.getCustomersBySort(sortField);
+        } else {
+            customers = customerService.getCustomersBySort(SortUtils.LAST_NAME);
+        }
         model.addAttribute("customers", customers);
         return "list-customers";
     }
@@ -48,4 +55,5 @@ public class CustomerController {
         model.addAttribute("customers", customers);
         return "list-customers";
     }
+
 }

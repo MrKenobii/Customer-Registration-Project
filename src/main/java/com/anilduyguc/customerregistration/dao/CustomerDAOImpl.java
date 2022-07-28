@@ -1,6 +1,7 @@
 package com.anilduyguc.customerregistration.dao;
 
 import com.anilduyguc.customerregistration.entity.Customer;
+import com.anilduyguc.customerregistration.utils.SortUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -55,6 +56,29 @@ public class CustomerDAOImpl implements CustomerDAO{
         } else {
             query = session.createQuery("from Customer", Customer.class);
         }
+        List<Customer> customers = query.getResultList();
+        return customers;
+    }
+
+    @Override
+    public List<Customer> getCustomersBySort(int sortField) {
+        Session session = sessionFactory.getCurrentSession();
+        String fieldName = null;
+        switch (sortField) {
+            case SortUtils.FIRST_NAME:
+                fieldName = "firstName";
+            break;
+            case SortUtils.LAST_NAME:
+                fieldName = "lastName";
+                break;
+            case SortUtils.EMAIL:
+                fieldName = "email";
+                break;
+            default:
+                fieldName = "lastName";
+        }
+        String stringQuery = "from Customer order by " + fieldName;
+        Query<Customer> query = session.createQuery(stringQuery, Customer.class);
         List<Customer> customers = query.getResultList();
         return customers;
     }

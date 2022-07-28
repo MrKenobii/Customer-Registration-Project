@@ -9,4 +9,5 @@ public interface CustomerService {
     public Customer getCustomer(int id);
     public void deleteCustomer(int id);
     public List<Customer> searchCustomers(String searchName);
+    public List<Customer> getCustomersBySort(int sortField);
 }
